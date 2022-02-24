@@ -6,6 +6,6 @@
   :license  "Specify license here"
   :version "0.0.1"
   :serial t
-  :depends-on (#:hunchentoot #:s-sql #:alexandria #:postmodern #:cl-ppcre)
+  :depends-on (#:hunchentoot #:s-sql #:alexandria #:postmodern #:cl-ppcre #:cl-who)
   :components ((:file "package")
                (:file "myapp")))
