@@ -1,11 +1,12 @@
 (in-package #:myapp-test)
 
-(def-suite :myapp
+(def-suite myapp
   :description "The main suite.")
 
-(def-suite :myapp-basic
-  :description "Basic test suite.")
-(in-suite :myapp-basic)
+(def-suite myapp-basic
+  :description "Basic test suite."
+  :in myapp)
+(in-suite myapp-basic)
 
 (test factorial-tail-recursion
   (is (and
