@@ -45,3 +45,21 @@ TODO: cleanup code."
        (:pre "SELECT version();"))
       (:div (format s "~A" (postmodern:with-connection (db-params)
 			     (postmodern:query "select version()"))))))))
+
+(defun factorial-tail-recursion (num)
+  (unless (>= num 0)
+    (return-from factorial-tail-recursion nil))
+  (labels ((fn (num acc)
+	     (if (= num 0)
+		 acc
+		 (fn (1- num) (* num acc)))))
+    (fn num 1)))
+
+(defun factorial-recursion (num)
+  (unless (>= num 0)
+    (return-from factorial-recursion nil))
+  (if (>= num 1)
+      (* num (factorial-recursion (1- num)))
+      1))
+
+

@@ -8,4 +8,13 @@
   :serial t
   :depends-on (#:hunchentoot #:s-sql #:alexandria #:postmodern #:cl-ppcre #:cl-who)
   :components ((:file "package")
-               (:file "myapp")))
+               (:file "myapp"))
+  :in-order-to ((test-op (test-op #:myapp/test))))
+
+(defsystem #:myapp/test
+  :depends-on (#:myapp #:fiveam)
+  :components ((:module "test"
+		:components ((:file "package")
+			     (:file "test"))))
+  :perform (test-op (op c)
+		    (symbol-call :fiveam :run-all-tests)))
