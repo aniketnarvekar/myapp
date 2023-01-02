@@ -10,6 +10,7 @@ jobs:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
         os: [ubuntu-20.04, macOS-latest]
+
     steps:
       uses: actions/checkout@v1
       - name: Install Roswell
