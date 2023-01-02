@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
-        os: [ubuntu-20.04, macOS-latest]
+        os: [macOS-latest]
 
     steps:
       - uses: actions/checkout@v1
