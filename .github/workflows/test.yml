@@ -16,8 +16,8 @@ jobs:
       - name: Install Roswell
         env:
           LISP: ${{ matrix.lisp }}
-          run: |
-            curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+        run: |
+          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
       - name: Install ci-utils
         run: ros install ci-utils
       - name: Run 5am
