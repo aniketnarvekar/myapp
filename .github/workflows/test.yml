@@ -1,4 +1,4 @@
-name: myapp
+name: my-app
 
 on: [push]
 
