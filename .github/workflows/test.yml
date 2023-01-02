@@ -10,12 +10,12 @@ jobs:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
         os: [ubuntu-20.04, macOS-latest]
-      steps:
-        - uses: actions/checkout@v1
-        - name: Install Roswell
-          env:
-            LISP: ${{ matrix.lisp }}
-            run:|
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Roswell
+        env:
+          LISP: ${{ matrix.lisp }}
+          run: |
             curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
       - name: Install ci-utils
         run: ros install ci-utils
