@@ -53,15 +53,15 @@ jobs:
     steps:
     # Check out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+      with:
+        MSYSTEM: MINGW64
+        MSYSCON: defterm
     # set up MSYS shell on windows
     - name: windows specific settings
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        git config --global core.autocrlf false
-        echo "::set-env name=MSYSTEM::MINGW64"
-        echo "::set-env name=MSYSCON::defterm"
-        echo "::add-path::C:\msys64\usr\bin\"
+        PATH="/c/cmsys64/usr/bin:$PATH"
     - name: Print system version
       run: |
         uname
