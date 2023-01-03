@@ -1,4 +1,31 @@
-name: myapp
+# name: myapp
+
+# on: [push]
+
+# jobs:
+#   test:
+#     name: ${{ matrix.lisp }} on ${{ matrix.os }}
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         lisp: [sbcl-bin]
+#         os: [macOS-latest, ubuntu-latest]
+
+#     steps:
+#       - uses: actions/checkout@v1
+#       - name: Install Roswell
+#         env:
+#           LISP: ${{ matrix.lisp }}
+#         run: |
+#           curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+#       - name: Install ci-utils
+#         run: ros install ci-utils
+#       - name: Run 5am
+#         run: |
+#            PATH="~/.roswell/bin:$PATH"
+#            run-fiveam -l myapp/test myapp-test:myapp
+
+name: CI
 
 on: [push]
 
@@ -9,18 +36,31 @@ jobs:
     strategy:
       matrix:
         lisp: [sbcl-bin]
-        os: [macOS-latest, ubuntu-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v1
-      - name: Install Roswell
+      - name: Install Roswell (Ubuntu & macOS)
+        if: matrix.os != 'windows-latest'
         env:
           LISP: ${{ matrix.lisp }}
         run: |
           curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+      - name: Install Roswell (Windows)
+        if: matrix.os == 'windows-latest'
+        env:
+          LISP: ${{ matrix.lisp }}
+          ROSWELL_INSTALL_DIR: /c/roswell
+        run: |
+          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
       - name: Install ci-utils
         run: ros install ci-utils
-      - name: Run 5am
+      - name: Run tests (Ubuntu & macOS)
+        if: matrix.os != 'windows-latest'
         run: |
-           PATH="~/.roswell/bin:$PATH"
-           run-fiveam -l myapp/test myapp-test:myapp
+          PATH="~/.roswell/bin:$PATH"
+          run-fiveam -l myapp/test myapp-test:myapp
+      - name: Run tests (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          ros -S . -s run-fiveam -l myapp/test myapp-test:myapp
