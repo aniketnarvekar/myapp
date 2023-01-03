@@ -61,7 +61,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        PATH="C:\msys64\usr\bin:$PATH"
+        set PATH=%PATH%;C:\msys64\usr\bin\
     - name: Print system version
       run: |
         uname
