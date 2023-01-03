@@ -48,8 +48,7 @@ jobs:
         if: matrix.os != 'windows-2019'
         env:
           LISP: ${{ matrix.lisp }}
-      - shell: msys2 {0}
-      - run: |
+        run: |
           curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
       - name: Install Roswell (Windows)
         if: matrix.os == 'windows-2019'
@@ -58,6 +57,7 @@ jobs:
           ROSWELL_INSTALL_DIR: /c/roswell
         run: |
           curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+        shell: msys2 {0}
       - name: Install ci-utils
         run: ros install ci-utils
       - name: Run tests (Ubuntu & macOS)
@@ -69,3 +69,4 @@ jobs:
         if: matrix.os == 'windows-2019'
         run: |
           /c/roswell/bin/ros -S . -s fiveam -e '(asdf:test-system "myapp")'
+        shell: msys2 {0}
