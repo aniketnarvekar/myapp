@@ -51,6 +51,16 @@ jobs:
         if: matrix.os == 'windows-2019'
         run: |
           choco install msys2
+      - name: Build and (hopefully) install package (Windows)
+        if: matrix.os == 'windows-2019'
+        run: C:\tools\msys64\usr\bin\bash -lc "./msys2-mingw/run.sh -b"
+        env:
+          HOME: ${{ runner.workspace }}/myrepo
+          MINGW_INSTALLS: ${{ matrix.task.installs }}
+        CI: true
+      - name: Test package (Windows)
+        if: matrix.os == 'windows-2019'
+        run: C:\tools\msys64\usr\bin\bash -lc "source /usr/bin/shell $MINGW_INSTALLS; ./msys2-mingw/run.sh -t"
       - name: Install Roswell (Windows)
         if: matrix.os == 'windows-2019'
         env:
