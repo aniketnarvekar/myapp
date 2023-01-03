@@ -1,23 +1,20 @@
-
-
-name: CI
-
-on: [push]
+name: MSYS2
+on: [push, pull_request]
 
 jobs:
-  test:
-    name: ${{ matrix.lisp }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        lisp: [sbcl-bin]
-        os: [windows-latest]
-
+  msys2-ucrt64:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
     steps:
+      - uses: actions/checkout@v3
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: MSYS
-      - shell: msys2 {0}
+          msystem: UCRT64
+          update: true
+          install: git mingw-w64-ucrt-x86_64-gcc
+      - name: CI-Build
         run: |
-          makepkg-mingw -sCLfc --noconfirm --noprogressbar
-          pacman --noconfirm -U mingw-w64-*-any.pkg.tar.xz
+          echo 'Running in MSYS2!'
+          ./ci-build.sh
